@@ -1,0 +1,146 @@
+[
+  {
+    "model": "tasks.task",
+    "pk": "cheval-2016",
+    "fields": {
+      "name": "Cheval de Frise",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "drawbridge-2016",
+    "fields": {
+      "name": "Drawbridge",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "gears-2017",
+    "fields": {
+      "name": "Gears",
+      "year": 2017
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "hang-2017",
+    "fields": {
+      "name": "Hang",
+      "year": 2017
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "highgoal-2016",
+    "fields": {
+      "name": "High Goal",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "highgoal-2017",
+    "fields": {
+      "name": "High Goal",
+      "year": 2017
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "lowbar-2016",
+    "fields": {
+      "name": "Low Bar",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "lowgoal-2016",
+    "fields": {
+      "name": "Low Goal",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "lowgoal-2017",
+    "fields": {
+      "name": "Low Goal",
+      "year": 2017
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "moat-2016",
+    "fields": {
+      "name": "Moat",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "pickup-ground-2017",
+    "fields": {
+      "name": "Ground Fuel Pick up",
+      "year": 2017
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "pickup-hopper-2017",
+    "fields": {
+      "name": "Hopper Fuel Pick up",
+      "year": 2017
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "portcullis-2016",
+    "fields": {
+      "name": "Portcullis",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "ramparts-2016",
+    "fields": {
+      "name": "Ramparts",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "rockwall-2016",
+    "fields": {
+      "name": "Rock Wall",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "roughterrain-2016",
+    "fields": {
+      "name": "Rough Terrain",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "sallyport-2016",
+    "fields": {
+      "name": "Sally Port",
+      "year": 2016
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": "scaletower-2016",
+    "fields": {
+      "name": "Scale Tower",
+      "year": 2016
+    }
+  }
+]

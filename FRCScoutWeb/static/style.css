@@ -1,0 +1,116 @@
+/* Base styles */
+body
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.temp-toolbar
+{
+    width: 100%;
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 600px)
+{
+    .temp-toolbar
+    {
+        height: 64px;
+    }
+}
+
+.toolbar-right-aligned-link
+{
+    margin: 0 0 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF;
+    text-decoration: none;
+    letter-spacing: 0;
+    padding: 24px;
+}
+
+.temp-toolbar-menu
+{
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    color: #FFFFFF;
+    box-sizing: border-box;
+}
+
+/* MDC Overrides */
+.mdc-card
+{
+    background-color: #FFFFFF;
+}
+
+a.mdc-fab
+{
+    text-decoration: none;
+}
+
+/* Custom Styles */
+.text-bold
+{
+    font-weight: bold;
+}
+
+.emptystate
+{
+    text-align: center;
+    color: #616161;
+}
+
+.emptystate i
+{
+    font-size: 10em;
+}
+
+.field-column
+{
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.field-error
+{
+    color: #D50000;
+    font-size: 12px;
+    margin-top: 3px;
+    display: block;
+}
+
+.field-helptext
+{
+    color: var(--mdc-theme-text-hint-on-light, rgba(0, 0, 0, .38));
+    margin: 0;
+    font-size: .75rem;
+    opacity: 1;
+}
+
+.field-label
+{
+    margin-top: 1.5em;
+    margin-left: 0 !important;
+    margin-bottom: .5em;
+    font-size: 1rem;
+}
+
+.floating-bottom-right-fab
+{
+    color: var(--mdc-theme-text-primary-on-primary);
+    position: fixed;
+    bottom: 2em;
+    right: 2em;
+    z-index: 99;
+}

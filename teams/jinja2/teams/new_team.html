@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{# FIXME: This whole form feels horribly hack-y. #}
+{% block body %}
+    <div class="mdc-layout-grid">
+        <div class="mdc-card mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-3-phone"
+             style="margin: 0 auto;">
+            <form method="POST" action="{{ url("teams:new_team") }}">
+                <section class="mdc-card__primary mdc-theme--primary-bg">
+                    <h1 class="mdc-card__title mdc-card__title--large mdc-theme--text-primary-on-primary">Add team</h1>
+                </section>
+                <section class="mdc-card__supporting-text">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+                    {% for hidden in form.hidden_fields() %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% for error in form.non_field_errors() %}
+                        <span class="field-error">{{ error }}</span>
+                    {% endfor %}
+
+                    {% for field in form.visible_fields() %}
+                        {% set widget_type = field.field.widget.__class__.__name__ %}
+                        {% if widget_type == "NumberInput" or widget_type == "TextInput" %}
+                            {% set div_attrs %}
+                                class="mdc-textfield" data-mdc-auto-init="MDCTextfield"
+                            {% endset %}
+                            {% set label_class = "mdc-textfield__label" %}
+
+                            {% if field.value() != "" and field.value() != None %}
+                                {% set label_class = label_class + " mdc-textfield__label--float-above" %}
+                            {% endif %}
+
+                            {% set helptext_class = "mdc-textfield-helptext" %}
+                        {% elif widget_type == "MultipleCheckboxes" %}
+                            {% set div_attrs %}
+                                class="mdc-form-field mdc-form-field--align-end field-column"
+                            {% endset %}
+                            {% set label_class = "field-label" %}
+                            {% set helptext_class = "field-helptext" %}
+                        {% elif widget_type == "MaterialCheckboxInput" %}
+                            {# FIXME: This is really hack-y #}
+                            <hr style="margin-top: 1em; border: 1px solid var(--mdc-theme-text-hint-on-light, rgba(0,0,0,.38));">
+                            {% set div_attrs %}
+                                class="mdc-form-field"
+                            {% endset %}
+                            {% set label_class = "mdc-switch-label" %}
+                            {% set helptext_class = "field-helptext" %}
+                        {% else %}
+                            {% set div_attrs %}
+                                class="mdc-form-field"
+                            {% endset %}
+                            {% set label_class = "field-label" %}
+                            {% set helptext_class = "field-helptext" %}
+                        {% endif %}
+
+                        <div {{ div_attrs|safe }}>
+                            {{ field }}
+                            <label class="{{ label_class|safe }}"
+                                   for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        </div>
+                        {% for error in field.errors %}
+                            <span class="field-error">{{ error }}</span>
+                        {% endfor %}
+                        {% if field.help_text %}
+                            <p class="{{ helptext_class|safe }}" aria-hidden="true">{{ field.help_text }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </section>
+                <section class="mdc-card__actions">
+                    <input class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"
+                           data-mdc-auto-init="MDCRipple" type="submit" value="Submit"/>
+                </section>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block head %}
+    <script>
+        $(window).on("load", function()
+        {
+            var yearSelectBox = new window.mdc.select.MDCSelect(document.querySelector("#year-select-box"));
+            yearSelectBox.listen("MDCSelect:change", function()
+            {
+                {# FIXME: Don't hardcode this URL! #}
+                window.location = "/games/select/" + yearSelectBox.selectedOptions[0].id + "/?next={{ request.path|urlencode }}";
+            });
+
+            $(".team-favorite-button").each(function()
+            {
+                var $this = $(this);
+                $this.click(function()
+                {
+                    var teamNumber = $this.attr("data-team-number");
+                    var year = $this.attr("data-year");
+
+                    $.ajax({
+                        url: "{{ url("teams:toggle_favorite") }}",
+                        type: "POST",
+                        data: {
+                            "csrfmiddlewaretoken": "{{ csrf_token }}",
+                            "team_number": teamNumber,
+                            "year": year
+                        },
+                        success: function(data)
+                        {
+                            var message = "Team " + teamNumber + " " + (data == "True" ? "favorited" : "unfavorited");
+                            window.snackbar.show({
+                                message: message,
+                                timeout: 2000,
+                                actionHandler: function()
+                                {
+                                    $this.click();
+                                },
+                                actionText: "Undo"
+                            });
+
+                            $this.find(".material-icons").text(data == "True" ? "favorite" : "favorite_border");
+                        },
+                        error: function(jqXHR)
+                        {
+                            var errorMessage = "Could not toggle favorite on team " + teamNumber + ". ";
+
+                            if (jqXHR.status == 404)
+                            {
+                                errorMessage += "Team not found.";
+                            }
+                            else if (jqXHR.status == 401)
+                            {
+                                errorMessage += "You need to be logged in to do that."
+                            }
+                            else
+                            {
+                                errorMessage += "Code: " + jqXHR.status;
+                            }
+
+                            var notification = document.querySelector('.mdl-js-snackbar');
+                            window.snackbar.show({
+                                message: errorMessage
+                            });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}
+{% block body %}
+    <div class="mdc-select" role="listbox" tabindex="0" id="year-select-box"
+         style="margin-left: 16px; margin-top: 1em;">
+        <span class="mdc-select__selected-text">{{ request.session.user_selected_year or FRCScoutWeb.config.CURRENT_FRC_YEAR }}</span>
+        <div class="mdc-simple-menu mdc-select__menu">
+            <ul class="mdc-list mdc-simple-menu__items">
+                <li class="mdc-list-item" role="option" id="2017" tabindex="0">
+                    2017
+                </li>
+                <li class="mdc-list-item" role="option" id="2016" tabindex="0">
+                    2016
+                </li>
+            </ul>
+        </div>
+    </div>
+    {% if teams %}
+        <div class="mdc-layout-grid">
+            {% for team in teams %}
+                <div class="mdc-card mdc-layout-grid__cell mdc-layout-grid__cell--span-2 mdc-layout-grid__cell--span-3-tablet mdc-layout-grid__cell--span-4-phone">
+                    <section class="mdc-card__primary">
+                        <h1 class="mdc-card__title mdc-card__title--large">{{ team.team_number }}</h1>
+                        <h2 class="mdc-card__subtitle">{{ team.name }}</h2>
+                    </section>
+                    <section class="mdc-card__supporting-text">
+                        Tasks: {{ team.tasks.all()|length }} / {{ num_tasks }}<br>
+                        Autonomous Points: {{ team.auto_points }}
+                    </section>
+
+                    <section class="mdc-card__actions">
+                        <a href="{{ url("teams:edit_team", args=[team.team_number]) }}" class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"
+                           data-mdc-auto-init="MDCRipple">Edit</a>
+                        <a href="https://www.thebluealliance.com/team/{{ team.team_number }}" target="_blank"
+                           rel="noreferrer noopener"
+                           class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"
+                           data-mdc-auto-init="MDCRipple">TBA</a>
+                    </section>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="emptystate" role="presentation">
+            <i class="material-icons">group_work</i>
+            <p>No teams for this year.</p>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block outside_content %}
+    <a href="{{ url("teams:new_team") }}?next={{ request.path|urlencode }}"
+       class="mdc-fab material-icons floating-bottom-right-fab" aria-label="Add Team" data-mdc-auto-init="MDCRipple"
+       tabindex="0">
+        <span class="mdc-fab__icon">add</span>
+    </a>
+{% endblock %}

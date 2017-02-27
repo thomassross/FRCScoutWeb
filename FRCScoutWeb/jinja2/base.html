@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>FRC Scout</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+        <link rel="stylesheet" href="{{ static("material-components-web.min.css") }}">
+        {#<link rel="stylesheet"#}
+        {#      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">#}
+        <link rel="stylesheet" type="text/css" href="{{ static("style.css") }}"/>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="{{ static("notifications.js") }}"></script>
+
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body class="mdc-typography" style="background-color: #F5F5F5;">
+        <div class="temp-toolbar mdc-theme--primary-bg mdc-theme--text-primary-on-primary mdc-typography--title mdc-elevation--z4">
+            <button class="temp-toolbar-menu material-icons">menu</button>
+            {% if request.user.is_authenticated %}
+                <a href="{{ url("logout") }}?next={{ request.path|urlencode }}"
+                   class="toolbar-right-aligned-link">Logout</a>
+            {% else %}
+                <a href="{{ url("login") }}?next={{ request.path|urlencode }}"
+                   class="toolbar-right-aligned-link">Login</a>
+            {% endif %}
+        </div>
+
+        <aside class="mdc-temporary-drawer">
+            <nav class="mdc-temporary-drawer__drawer">
+                <header class="mdc-temporary-drawer__header">
+                    <div class="mdc-temporary-drawer__header-content mdc-theme--primary-bg mdc-theme--text-primary-on-primary">
+                        FRC Scout
+                    </div>
+                </header>
+                <nav class="mdc-temporary-drawer__content mdc-list-group">
+                    <div class="mdc-list">
+                        {#                        mdc-temporary-drawer--selected#}
+                        <a class="mdc-list-item" href="/">
+                            <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">home</i>
+                            Home
+                        </a>
+                        <a class="mdc-list-item" href="{{ url("tasks:index") }}">
+                            <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">done_all</i>
+                            Tasks
+                        </a>
+                        <a class="mdc-list-item" href="{{ url("games:index") }}">
+                            <i class="material-icons mdc-list-item__start-detail" aria-hidden="true">gamepad</i>
+                            Games
+                        </a>
+                    </div>
+                    {#<hr class="mdc-list-divider">#}
+                </nav>
+            </nav>
+        </aside>
+
+        <main>
+            {% block body %}
+            {% endblock %}
+        </main>
+
+        <div class="mdc-snackbar" aria-live="assertive" aria-atomic="true" aria-hidden="true">
+            <div class="mdc-snackbar__text"></div>
+            <div class="mdc-snackbar__action-wrapper">
+                <button type="button" class="mdc-button mdc-snackbar__action-button"></button>
+            </div>
+        </div>
+
+        {% block outside_content %}
+        {% endblock %}
+
+        <script src="{{ static("material-components-web.js") }}"></script>
+        <script>
+            $(window).on("load", function()
+            {
+                window.mdc.autoInit();
+
+                var drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector(".mdc-temporary-drawer"));
+                $(".temp-toolbar-menu").click(function()
+                {
+                    drawer.open = true;
+                });
+
+                window.snackbar = new window.mdc.snackbar.MDCSnackbar(document.querySelector(".mdc-snackbar"));
+
+                window.run_notifications();
+            });
+        </script>
+    </body>
+</html>
