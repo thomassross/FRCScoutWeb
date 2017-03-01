@@ -8,6 +8,7 @@ from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
 
 from api.models import APIKey
+from api.utils import is_valid_api_key
 from tasks.models import Task
 from teams.models import Team
 
@@ -16,12 +17,12 @@ from teams.models import Team
 @csrf_exempt
 def generate_api_key(request):
     def get_unique_key():
-        rtn_key = get_random_string(length=32, allowed_chars=string.ascii_letters + string.digits)
+        new_key = get_random_string(length=32, allowed_chars=string.ascii_letters + string.digits)
 
-        if APIKey.objects.filter(key=rtn_key).exists():
+        if is_valid_api_key(new_key):
             return get_unique_key()
         else:
-            return rtn_key
+            return new_key
 
     key = get_unique_key()
 
@@ -45,7 +46,7 @@ def generate_api_key(request):
 def get_team(request, year, team_number):
     key = request.GET.get("key", "")
 
-    if not APIKey.objects.filter(key=key).exists():
+    if not is_valid_api_key(key):
         return HttpResponse("{\"status\": 1}", status=401)
 
     try:
@@ -84,7 +85,7 @@ def set_team(request, year, team_number):
 
     key = json_body.get("key", "")
 
-    if not APIKey.objects.filter(key=key).exists():
+    if not is_valid_api_key(key):
         return HttpResponse("{\"status\": 1}", status=401)
 
     try:

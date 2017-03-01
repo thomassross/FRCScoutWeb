@@ -1,16 +1,12 @@
 from django.shortcuts import render
 
-from teams.models import Team
+from FRCScoutWeb.utils import get_user_selected_year
 from tasks.models import Task
-
-from FRCScoutWeb.config import CURRENT_FRC_YEAR, ALLOWED_YEARS
+from teams.models import Team
 
 
 def index(request):
-    user_selected_year = request.session.get("user_selected_year")
-    if not user_selected_year or int(user_selected_year) not in ALLOWED_YEARS:
-        request.session["user_selected_year"] = CURRENT_FRC_YEAR
-        user_selected_year = CURRENT_FRC_YEAR
+    user_selected_year = get_user_selected_year(request)
 
     teams = Team.objects.filter(year=user_selected_year)
 

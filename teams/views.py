@@ -5,17 +5,14 @@ from django.http import HttpResponse, QueryDict
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 
-from FRCScoutWeb.config import CURRENT_FRC_YEAR, ALLOWED_YEARS
+from FRCScoutWeb.utils import get_user_selected_year
 from teams.models import Team
 from .forms import NewTeamForm, EditTeamForm
 
 
 @login_required
 def new_team(request):
-    user_selected_year = request.session.get("user_selected_year")
-    if not user_selected_year or int(user_selected_year) not in ALLOWED_YEARS:
-        request.session["user_selected_year"] = CURRENT_FRC_YEAR
-        user_selected_year = CURRENT_FRC_YEAR
+    user_selected_year = get_user_selected_year(request)
 
     if request.method == "POST":
         form = NewTeamForm(request.POST)
@@ -73,11 +70,7 @@ def new_team(request):
 
 @login_required
 def edit_team(request, team_number):
-    user_selected_year = request.session.get("user_selected_year")
-    if not user_selected_year or int(user_selected_year) not in ALLOWED_YEARS:
-        request.session["user_selected_year"] = CURRENT_FRC_YEAR
-        user_selected_year = CURRENT_FRC_YEAR
-
+    user_selected_year = get_user_selected_year(request)
     team = get_object_or_404(Team, team_number=team_number)
 
     if request.method == "POST":
