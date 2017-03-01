@@ -1,6 +1,6 @@
 from django import forms
 
-from FRCScoutWeb.config import CURRENT_FRC_YEAR
+from FRCScoutWeb.config import CURRENT_FRC_YEAR, ALLOWED_YEARS
 from FRCScoutWeb.widgets import MultipleCheckboxes, MaterialCheckboxInput
 
 from tasks.models import Task
@@ -28,7 +28,9 @@ class NewTeamForm(forms.Form):
     favorite = forms.BooleanField(label="Favorite", widget=MaterialCheckboxInput, required=False)
 
     def prepare_tasks(self, year=None):
-        year = year or CURRENT_FRC_YEAR
+        if not year or year not in ALLOWED_YEARS:
+            year = CURRENT_FRC_YEAR
+
         self.fields["tasks"].queryset = Task.objects.filter(year=year)
 
 
@@ -50,5 +52,7 @@ class EditTeamForm(forms.Form):
     favorite = forms.BooleanField(label="Favorite", widget=MaterialCheckboxInput, required=False)
 
     def prepare_tasks(self, year=None):
-        year = year or CURRENT_FRC_YEAR
+        if not year or year not in ALLOWED_YEARS:
+            year = CURRENT_FRC_YEAR
+
         self.fields["tasks"].queryset = Task.objects.filter(year=year)
