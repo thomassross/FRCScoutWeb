@@ -99,14 +99,14 @@ def edit_team(request, team_number):
                 parsed_url = urlparse(request.GET["next"])
                 query = QueryDict(parsed_url.query, True)
                 query["edit_team_success"] = True
-                query["edit_team_team_number"] = form.cleaned_data.get("team_number")
+                query["edit_team_team_number"] = team_number
                 next_url = urlunparse(
                     (parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, query.urlencode(),
                      parsed_url.fragment))
             else:
                 query = QueryDict(mutable=True)
                 query["edit_team_success"] = True
-                query["edit_team_team_number"] = form.cleaned_data.get("team_number")
+                query["edit_team_team_number"] = team_number
                 next_url = reverse("home:index") + "?" + query.urlencode()
 
             return redirect(next_url)
