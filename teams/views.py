@@ -60,7 +60,6 @@ def new_team(request):
                     next_url = reverse("teams:new_team") + "?" + query.urlencode()
 
                 return redirect(next_url)
-
     else:
         form = NewTeamForm()
         form.prepare_tasks(user_selected_year)
@@ -110,7 +109,6 @@ def edit_team(request, team_number):
                 next_url = reverse("home:index") + "?" + query.urlencode()
 
             return redirect(next_url)
-
     else:
         # FIXME: This should probably be a ModelForm
         initial = {"team_name": team.name,
