@@ -19,9 +19,9 @@
                     {% endfor %}
 
                     {% for field in form.visible_fields() %}
-                        <div class="mdc-textfield mdc-form-field" data-mdc-auto-init="MDCTextfield">
+                        <div class="mdc-textfield" data-mdc-auto-init="MDCTextfield">
                             {{ field }}
-                            <label class="mdc-textfield__label" for="{{ field.id_For_label }}">{{ field.label }}</label>
+                            <label class="mdc-textfield__label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                         </div>
                         {% for error in field.errors %}
                             <span class="field-error">{{ error }}</span>
