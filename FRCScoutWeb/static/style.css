@@ -52,6 +52,21 @@ body
 .mdc-card
 {
     background-color: #FFFFFF;
+    /* TODO: This is for the favorite icon in the top right. It is very hacky. */
+    position: relative;
+}
+
+/* TODO: Because of the position-relative of the cards, this has to be set to z-index 999 for the home view */
+.mdc-select__menu
+{
+    z-index: 999;
+}
+
+section.mdc-card__topright
+{
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 a.mdc-fab

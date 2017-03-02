@@ -7,13 +7,15 @@
             yearSelectBox.listen("MDCSelect:change", function()
             {
                 {# FIXME: Don't hardcode this URL! #}
-                window.location = "/games/select/" + yearSelectBox.selectedOptions[0].id + "/?next={{ request.path|urlencode }}";
+                window.location = "/games/select/" + yearSelectBox.selectedOptions[0].id +
+                                  "/?next={{ request.path|urlencode }}";
             });
 
             $(".team-favorite-button").each(function()
             {
+                window.mdc.iconToggle.MDCIconToggle.attachTo(this);
                 var $this = $(this);
-                $this.click(function()
+                this.addEventListener("MDCIconToggle:change", function(detail)
                 {
                     var teamNumber = $this.attr("data-team-number");
                     var year = $this.attr("data-year");
@@ -39,7 +41,7 @@
                                 actionText: "Undo"
                             });
 
-                            $this.find(".material-icons").text(data == "True" ? "favorite" : "favorite_border");
+                            detail.on = data == "True" ;
                         },
                         error: function(jqXHR)
                         {
@@ -62,6 +64,8 @@
                             window.snackbar.show({
                                 message: errorMessage
                             });
+
+                            detail.on = false;
                         }
                     });
                 });
@@ -98,12 +102,25 @@
                     </section>
 
                     <section class="mdc-card__actions">
-                        <a href="{{ url("teams:edit_team", args=[team.team_number]) }}" class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"
-                           data-mdc-auto-init="MDCRipple">Edit</a>
+                        <a href="{{ url("teams:edit_team", args=[team.team_number]) }}"
+                           class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"
+                           data-mdc-auto-init="MDCRipple">EDIT</a>
                         <a href="https://www.thebluealliance.com/team/{{ team.team_number }}" target="_blank"
                            rel="noreferrer noopener"
                            class="mdc-button mdc-button--compact mdc-button--accent mdc-card__action"
                            data-mdc-auto-init="MDCRipple">TBA</a>
+                    </section>
+
+                    <section class="mdc-card__topright">
+                        <i class="mdc-icon-toggle material-icons team-favorite-button" role="button"
+                           aria-pressed="{{ "true" if team.favorite else "false" }}"
+                           data-year="{{ team.year }}"
+                           data-team-number="{{ team.team_number }}"
+                           aria-label="Add to favorites" tabindex="0"
+                           data-toggle-on='{"label": "Remove from favorites", "content": "favorite"}'
+                           data-toggle-off='{"label": "Add to favorites", "content": "favorite_border"}'>
+                            favorite_border
+                        </i>
                     </section>
                 </div>
             {% endfor %}
