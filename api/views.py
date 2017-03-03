@@ -101,19 +101,19 @@ def set_team(request, year, team_number):
     if "tasks" in json_body:
         team.tasks.clear()
         new_tasks = json_body["tasks"]
-        if isinstance(new_tasks, dict):
-            for codeyear, task in new_tasks.items():
-                team_able = str(task["team_able"]).lower()
-                if isinstance(task, dict) \
-                        and isinstance(team_able, str) \
-                        and isinstance(codeyear, str) \
-                        and team_able == "true" \
-                        and re.search("^\w+-\d+$", codeyear):
-                    try:
-                        task_obj = Task.objects.get(codeyear=codeyear)
-                        team.tasks.add(task_obj)
-                    except Task.DoesNotExist:
-                        pass
+        if isinstance(new_tasks, list):
+            for task in new_tasks:
+                if isinstance(task["codeyear"], str) and isinstance(task["team_able"], bool):
+                    codeyear = str(task["codeyear"]).lower()
+                    team_able = task["team_able"]
+                    if isinstance(task, dict) \
+                            and team_able \
+                            and re.search("^\w+-\d+$", codeyear):
+                        try:
+                            task_obj = Task.objects.get(codeyear=codeyear)
+                            team.tasks.add(task_obj)
+                        except Task.DoesNotExist:
+                            pass
 
     if "auto_points" in json_body:
         new_auto_points = json_body["auto_points"]
