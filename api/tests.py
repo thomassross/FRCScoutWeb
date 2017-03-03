@@ -70,19 +70,21 @@ class GetTeamTest(TestCase):
         self.assertTrue("tasks" in parsed_response)
 
         task1_expected = {
+            "codeyear": "task-1",
             "name": "Task",
             "team_able": True
         }
 
         task2_expected = {
+            "codeyear": "othertask-1",
             "name": "Other Task",
             "team_able": False
         }
 
-        tasks_expected = {
-            "task-1": task1_expected,
-            "othertask-1": task2_expected
-        }
+        tasks_expected = [
+            task1_expected,
+            task2_expected
+        ]
 
         self.assertEqual(parsed_response["tasks"], tasks_expected)
 

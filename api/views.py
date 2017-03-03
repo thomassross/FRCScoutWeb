@@ -54,17 +54,17 @@ def get_team(request, year, team_number):
     except Team.DoesNotExist:
         return HttpResponse("{\"status\": 1}", status=400)
 
-    tasks_obj = {}
+    tasks_obj = []
     team_tasks = team.tasks.all()
     for task in Task.objects.filter(year=year):
-        tasks_obj[task.codeyear] = {
+        tasks_obj.append({
+            "codeyear": task.codeyear, 
             "name": task.name,
             "team_able": task in team_tasks
-        }
+        })
 
     content = json.dumps({
         "status": 0,
-        "key": key,
         "team_number": team.team_number,
         "name": team.name,
         "tasks": tasks_obj,
