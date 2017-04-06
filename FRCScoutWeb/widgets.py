@@ -96,7 +96,7 @@ class MaterialCheckboxInput(CheckboxInput):
             final_attrs["value"] = force_text(value)
 
         output = [
-            "<br><div class=\"mdc-checkbox\" data-mdc-auto-init=\"MDCCheckbox\">",
+            "<div class=\"mdc-checkbox\" data-mdc-auto-init=\"MDCCheckbox\">",
             format_html("<input class=\"mdc-checkbox__native-control\" {}>", flatatt(final_attrs)),
             "<div class=\"mdc-checkbox__background\">",
             """
@@ -115,15 +115,4 @@ class MaterialCheckboxInput(CheckboxInput):
             "</div></div>",
         ]
 
-        # output = [
-        #     "<div class=\"mdc-switch\">",
-        #     format_html("<input class=\"mdc-checkbox__native-control\" {}>", flatatt(final_attrs)),
-        #     "<div class=\"mdc-switch__background\">",
-        #     "<div class=\"mdc-switch__knob\"></div>",
-        #     "</div>",
-        #     "</div></div>",
-        # ]
-
         return "\n".join(output)
-
-        # return format_html('<input{} />', flatatt(final_attrs))
