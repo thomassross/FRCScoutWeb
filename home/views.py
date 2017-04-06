@@ -9,6 +9,7 @@ def index(request):
     user_selected_year = get_user_selected_year(request)
 
     teams = Team.objects.filter(year=user_selected_year)
+    teams = teams.order_by("-favorite", "team_number")
 
     num_tasks = len(Task.objects.filter(year=user_selected_year))
 
