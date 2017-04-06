@@ -15,6 +15,10 @@ class Team(models.Model):
 
     favorite = models.BooleanField(default=False)
 
+    notes = models.CharField(max_length=5000, blank=True, default="")
+
+    rating = models.IntegerField(default=0)
+
     class Meta:
         unique_together = ("team_number", "year")
 

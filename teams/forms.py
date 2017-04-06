@@ -1,4 +1,5 @@
 from django import forms
+from django.core import validators
 
 from FRCScoutWeb.config import CURRENT_FRC_YEAR, ALLOWED_YEARS
 from FRCScoutWeb.widgets import MultipleCheckboxes, MaterialCheckboxInput
@@ -25,6 +26,22 @@ class NewTeamForm(forms.Form):
                                            widget=MultipleCheckboxes,
                                            required=False)
 
+    notes = forms.CharField(label="Notes",
+                            required=False,
+                            widget=forms.Textarea(attrs={"class": "mdc-textfield__input mdc-typography",
+                                                         "cols": 25}))
+
+    rating = forms.IntegerField(label="Rating",
+                                required=False,
+                                widget=forms.NumberInput(attrs={"class": "mdc-textfield__input mdc-typography",
+                                                                "max": 10,
+                                                                "min": 0}),
+                                validators=[
+                                    validators.MaxValueValidator(10),
+                                    validators.MinValueValidator(0)
+                                ],
+                                help_text="Rating from 0 (worst) to 10 (best)")
+
     favorite = forms.BooleanField(label="Favorite", widget=MaterialCheckboxInput, required=False)
 
     def prepare_tasks(self, year=None):
@@ -48,6 +65,22 @@ class EditTeamForm(forms.Form):
                                            # TODO: Maybe this can be replaced with forms.CheckboxSelectMultiple
                                            widget=MultipleCheckboxes,
                                            required=False)
+
+    notes = forms.CharField(label="Notes",
+                            required=False,
+                            widget=forms.Textarea(attrs={"class": "mdc-textfield__input mdc-typography",
+                                                         "cols": 25}))
+
+    rating = forms.IntegerField(label="Rating",
+                                required=False,
+                                widget=forms.NumberInput(attrs={"class": "mdc-textfield__input mdc-typography",
+                                                                "max": 10,
+                                                                "min": 0}),
+                                validators=[
+                                    validators.MaxValueValidator(10),
+                                    validators.MinValueValidator(0)
+                                ],
+                                help_text="Rating from 0 (worst) to 10 (best)")
 
     favorite = forms.BooleanField(label="Favorite", widget=MaterialCheckboxInput, required=False)
 

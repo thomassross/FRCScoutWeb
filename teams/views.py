@@ -32,12 +32,18 @@ def new_team(request):
                 auto_points = form.cleaned_data["auto_points"] or 0
                 tasks = form.cleaned_data["tasks"]
 
+                notes = form.cleaned_data["notes"] or ""
+
+                rating = form.cleaned_data["rating"] or 0
+
                 favorite = form.cleaned_data["favorite"] or False
 
                 team = Team(team_number=team_number)
 
                 team.name = name
                 team.auto_points = auto_points
+                team.notes = notes
+                team.rating = rating
                 team.favorite = favorite
 
                 team.save()
@@ -82,10 +88,16 @@ def edit_team(request, team_number):
             auto_points = form.cleaned_data["auto_points"] or 0
             tasks = form.cleaned_data["tasks"]
 
+            notes = form.cleaned_data["notes"] or ""
+
+            rating = form.cleaned_data["rating"] or 0
+
             favorite = form.cleaned_data["favorite"] or False
 
             team.name = name
             team.auto_points = auto_points
+            team.notes = notes
+            team.rating = rating
             team.favorite = favorite
 
             team.save()
@@ -114,6 +126,8 @@ def edit_team(request, team_number):
         initial = {"team_name": team.name,
                    "auto_points": team.auto_points,
                    "tasks": team.tasks.all(),
+                   "notes": team.notes,
+                   "rating": team.rating,
                    "favorite": team.favorite}
 
         form = EditTeamForm(initial)

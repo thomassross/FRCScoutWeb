@@ -28,6 +28,7 @@
                             {% set div_attrs %}
                                 class="mdc-textfield" data-mdc-auto-init="MDCTextfield"
                             {% endset %}
+
                             {% set label_class = "mdc-textfield__label" %}
 
                             {% if field.value() != "" and field.value() != None %}
@@ -35,25 +36,39 @@
                             {% endif %}
 
                             {% set helptext_class = "mdc-textfield-helptext" %}
+                        {% elif widget_type == "Textarea" %}
+                            {% set div_attrs %}
+                                class="mdc-textfield mdc-textfield--multiline" data-mdc-auto-init="MDCTextfield"
+                            {% endset %}
+
+                            {% set label_class = "mdc-textfield__label" %}
+
+                            {% if field.value() != "" and field.value() != None %}
+                                {% set label_class = label_class + " mdc-textfield__label--float-above" %}
+                            {% endif %}
                         {% elif widget_type == "MultipleCheckboxes" %}
                             {% set div_attrs %}
                                 class="mdc-form-field mdc-form-field--align-end field-column"
                             {% endset %}
+
                             {% set label_class = "field-label" %}
+
                             {% set helptext_class = "field-helptext" %}
                         {% elif widget_type == "MaterialCheckboxInput" %}
-                            {# FIXME: This is really hack-y #}
-                            <hr style="margin-top: 1em; border: 1px solid var(--mdc-theme-text-hint-on-light, rgba(0,0,0,.38));">
                             {% set div_attrs %}
                                 class="mdc-form-field"
                             {% endset %}
+
                             {% set label_class = "mdc-switch-label" %}
+
                             {% set helptext_class = "field-helptext" %}
                         {% else %}
                             {% set div_attrs %}
                                 class="mdc-form-field"
                             {% endset %}
+
                             {% set label_class = "field-label" %}
+
                             {% set helptext_class = "field-helptext" %}
                         {% endif %}
 
@@ -65,6 +80,7 @@
                         {% for error in field.errors %}
                             <span class="field-error">{{ error }}</span>
                         {% endfor %}
+
                         {% if field.help_text %}
                             <p class="{{ helptext_class|safe }}" aria-hidden="true">{{ field.help_text }}</p>
                         {% endif %}
