@@ -142,5 +142,45 @@
       "name": "Scale Tower",
       "year": 2016
     }
+  },
+  {
+    "model":"tasks.task",
+    "pk":"switch-2018",
+    "fields":{
+      "name":"Switch",
+      "year":2018
+    }
+  },
+  {
+    "model":"tasks.task",
+    "pk":"vault-2018",
+    "fields":{
+      "name":"Vault",
+      "year":2018
+    }
+  },
+  {
+    "model":"tasks.task",
+    "pk":"scale-2018",
+    "fields":{
+      "name":"Scale",
+      "year":2018
+    }
+  },
+  {
+    "model":"tasks.task",
+    "pk":"climb-2018",
+    "fields":{
+      "name":"Climb",
+      "year":2018
+    }
+  },
+  {
+    "model":"tasks.task",
+    "pk":"climb-partner-2018",
+    "fields":{
+      "name":"Climb with Partner",
+      "year":2018
+    }
   }
 ]
